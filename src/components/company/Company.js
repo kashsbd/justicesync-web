@@ -1,11 +1,8 @@
 import {
   Checkbox,
   Divider,
-  FormControl,
   FormControlLabel,
   Grid,
-  MenuItem,
-  Select,
   Typography,
   colors,
 } from "@mui/material";

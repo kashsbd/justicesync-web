@@ -4,7 +4,6 @@ import Modal from "@mui/material/Modal";
 import "./CreateClient.css";
 import { Button, ButtonGroup, Grid, colors } from "@mui/material";
 import Company from "../../company/Company";
-import CommonButton from "../../commonbutton/CommonButton";
 
 const style = {
   position: "absolute",
@@ -14,7 +13,6 @@ const style = {
   width: "85%",
   height: "85%",
   bgcolor: "background.paper",
-  // border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
@@ -52,7 +50,6 @@ const CreateClient = ({ open, setOpen }) => {
                 </Button>
               </ButtonGroup>
             </Grid>
-           
           </Grid>
           <Company value={value} setOpen={setOpen} />
         </Box>
