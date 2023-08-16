@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 
 import CommonDrawer from "../../components/commondrawer/CommonDrawer";
 import Sidebar from "../../components/sidebar/Sidebar";
 import DetailComponent from "../../components/detailcomponent/DetailComponent";
 
 import { drawerWidth } from "../../utils/constants";
-import $axios from "../../lib/$axios";
-
-const getAllCaseData = async () => {
-  try {
-    const res = await $axios.get("cases");
-    return res.data?.data;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
+import useGetAllCase from "../../hooks/useGetAllCase";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -39,11 +29,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Cases = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["cases"],
-    queryFn: getAllCaseData,
-  });
-
+  const { data } = useGetAllCase();
   const [selectedCase, setSelectedCase] = useState(null);
 
   const caseList =

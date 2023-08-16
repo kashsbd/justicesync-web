@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 
 import CommonDrawer from "../../components/commondrawer/CommonDrawer";
 import Sidebar from "../../components/sidebar/Sidebar";
 import DetailComponent from "../../components/detailcomponent/DetailComponent";
 
 import { drawerWidth } from "../../utils/constants";
-import $axios from "../../lib/$axios";
-
-const getAllClientData = async () => {
-  try {
-    const res = await $axios.get("clients");
-    return res.data?.data;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
+import useGetAllClient from "../../hooks/useGetAllClient";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -39,11 +29,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Clients = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["clients"],
-    queryFn: getAllClientData,
-  });
-
+  const { data } = useGetAllClient();
   const [selectedClient, setSelectedClient] = useState(null);
 
   const clientList =
