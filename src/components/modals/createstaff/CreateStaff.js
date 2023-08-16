@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import "./CreateStaff.css";
-import { Grid } from "@mui/material";
+import { Grid, Box, Modal } from "@mui/material";
+
 import CommonSelect from "../../commonselect/CommonSelect";
 import CommonButton from "../../commonbutton/CommonButton";
-import { roleTypes, salutations, staffTypes } from "../../../utils/constants";
 import InputField from "../../inputfield/InputField";
+
+import { roleTypes, salutations, staffTypes } from "../../../utils/constants";
+
+import "./CreateStaff.css";
 
 const style = {
   position: "absolute",
@@ -16,7 +17,6 @@ const style = {
   width: "60%",
   height: "90%",
   bgcolor: "background.paper",
-  // border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
@@ -43,7 +43,7 @@ const CreateStaff = ({ open, setOpen }) => {
         <Box sx={style}>
           <div style={{ height: "100%", overflow: "scroll" }}>
             <Grid container spacing={2}>
-              <Grid item md={12}>
+              <Grid item md={12} ml={-1}>
                 <CommonSelect
                   value={salutation}
                   setValue={setSalutation}
@@ -69,7 +69,7 @@ const CreateStaff = ({ open, setOpen }) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item md={6}>
+              <Grid item md={6} ml={-1}>
                 <CommonSelect
                   value={roleType}
                   setValue={setRoleType}
