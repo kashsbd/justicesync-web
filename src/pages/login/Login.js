@@ -1,18 +1,49 @@
-import React from "react";
-import "./Login.css";
-import { colors } from "../../utils/constants";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import { API_URL, colors } from "../../utils/constants";
 import CommonButton from "../../components/commonbutton/CommonButton";
 import InputField from "../../components/inputfield/InputField";
-import { useNavigate } from "react-router-dom";
 
+import SnackBarContext from "../../contexts/SnackBarContext";
+
+import "./Login.css";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const { showSnackBar } = useContext(SnackBarContext);
 
-    const handleLogin = () => {
-        navigate("/cases");
+  const handleLogin = async () => {
+    if (email.trim().length === 0) {
+      showSnackBar("Please key in your email.");
+    } else if (password.trim().length === 0) {
+      showSnackBar("Please key in your password.");
+    } else {
+      try {
+        axios.defaults.headers["x-access-token"] = undefined;
+        const res = await axios.post(`${API_URL}/auth/login`, {
+          email,
+          password,
+        });
+        if (res.status === 200) {
+          localStorage.setItem("CURRENT_USER", JSON.stringify(res.data?.data));
+          axios.defaults.headers["x-access-token"] =
+            res.data?.data?.accessToken;
+          navigate("/cases");
+        } else {
+          showSnackBar("Something went wrong.");
+        }
+      } catch (error) {
+        console.error(error);
+        showSnackBar("Something went wrong.");
+      }
     }
+  };
+
   return (
     <div className="bgImg">
       <div className="loginContainer">
@@ -25,15 +56,19 @@ const Login = () => {
                 className="textField fullWidth marginTop"
                 variant="standard"
                 label="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="fullWidth">
+            <div className="fullWidth" style={{ marginTop: 10 }}>
               <InputField
                 required
                 hiddenLabel
                 className="textField fullWidth marginTop"
                 variant="standard"
                 label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
