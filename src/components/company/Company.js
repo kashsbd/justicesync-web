@@ -1,19 +1,14 @@
-import {
-  Checkbox,
-  Divider,
-  FormControlLabel,
-  Grid,
-  Typography,
-  colors,
-} from "@mui/material";
 import React, { useState } from "react";
+import { Checkbox, FormControlLabel, Grid } from "@mui/material";
+import dayjs from "dayjs";
+
 import InputField from "../inputfield/InputField";
 import CommonDatePicker from "../commondatepicker/CommonDatePicker";
-import dayjs from "dayjs";
 import CommonSelect from "../commonselect/CommonSelect";
-import { countries, salutations } from "../../utils/constants";
 import CommonTextArea from "../commontextarea/CommonTextArea";
 import CommonButton from "../commonbutton/CommonButton";
+
+import { countries, salutations } from "../../utils/constants";
 
 const Company = ({ value, setOpen }) => {
   const [salutation, setSalutation] = useState("");
@@ -40,10 +35,6 @@ const Company = ({ value, setOpen }) => {
               />
             </Grid>
             <Grid item md={6}>
-              <InputField fullWidth label="Tax Registered" variant="standard" />
-            </Grid>
-
-            <Grid item md={6} mt={1}>
               <InputField
                 label="Business Registration Number"
                 fullWidth
@@ -67,15 +58,7 @@ const Company = ({ value, setOpen }) => {
           </>
         )}
 
-        <Grid mt={3} item md={12}>
-          <Divider />
-        </Grid>
-        <Grid item md={12}>
-          <Typography style={{ color: colors.grey }} mt={3}>
-            CLIENT ID: N / A
-          </Typography>
-        </Grid>
-        <Grid mt={-1} item md={2}>
+        <Grid item md={2} ml={-1} mt={-1}>
           <CommonSelect
             value={salutation}
             setValue={setSalutation}
@@ -108,7 +91,7 @@ const Company = ({ value, setOpen }) => {
         <Grid item md={6}>
           <InputField label="Phone" variant="standard" fullWidth />
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={6} ml={-1}>
           <CommonSelect
             label="Created By"
             variant="standard"

@@ -76,8 +76,6 @@ const Clients = () => {
     }
   };
 
-  console.log(selectedClient);
-
   return (
     <Box sx={{ display: "flex" }}>
       <CommonDrawer />
