@@ -47,6 +47,11 @@ export const staffTypes = [
   { label: "Trainee", value: "trainee" },
 ];
 
+export const caseStatusTypes = [
+  { label: "Open", value: "Open" },
+  { label: "Closed", value: "Closed" },
+];
+
 export const API_URL = "http://localhost:3030/";
 
 export const CURRENT_USER = localStorage.getItem("CURRENT_USER")
