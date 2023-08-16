@@ -6,6 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Login from "./pages/login/Login";
 import Cases from "./pages/cases/Cases";
@@ -16,6 +17,8 @@ import Staff from "./pages/staff/Staff";
 import SnackBarContext from "./contexts/SnackBarContext";
 
 import "./App.css";
+
+const queryClient = new QueryClient();
 
 const App = () => {
   const [snackBarVisible, setSnackBarVisible] = useState(false);
@@ -47,15 +50,17 @@ const App = () => {
 
   return (
     <div>
-      <SnackBarContext.Provider value={{ showSnackBar, closeSnackBar }}>
-        <RouterProvider router={router} />;
-        <Snackbar
-          open={snackBarVisible}
-          autoHideDuration={4000}
-          onClose={() => setSnackBarVisible(false)}
-          message={snackBarMessage}
-        />
-      </SnackBarContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <SnackBarContext.Provider value={{ showSnackBar, closeSnackBar }}>
+          <RouterProvider router={router} />;
+          <Snackbar
+            open={snackBarVisible}
+            autoHideDuration={4000}
+            onClose={() => setSnackBarVisible(false)}
+            message={snackBarMessage}
+          />
+        </SnackBarContext.Provider>
+      </QueryClientProvider>
     </div>
   );
 };

@@ -1,14 +1,13 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 
 import CommonDrawer from "../../components/commondrawer/CommonDrawer";
 import Sidebar from "../../components/sidebar/Sidebar";
 import DetailComponent from "../../components/detailcomponent/DetailComponent";
 
 import { drawerWidth } from "../../utils/constants";
-
-import "./Clients.css";
 
 const clientList = [
   { case: "this is client one" },
@@ -38,7 +37,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Clients = () => {
-
+  const {} = useQuery;
   return (
     <Box sx={{ display: "flex" }}>
       <CommonDrawer />
