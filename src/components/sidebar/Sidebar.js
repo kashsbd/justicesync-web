@@ -1,13 +1,15 @@
-import { Divider, Typography, colors } from "@mui/material";
 import React, { useState } from "react";
-import "./Sidebar.css";
+import { Divider, Typography, colors } from "@mui/material";
 import { SearchOutlined } from "@mui/icons-material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
 import CreateClient from "../modals/createclient/CreateClient";
 import CreateStaff from "../modals/createstaff/CreateStaff";
 import CreateCase from "../modals/createcase/CreateCase";
 
-const Sidebar = ({ page, list }) => {
+import "./Sidebar.css";
+
+const Sidebar = ({ page, list, onListSelect = () => {} }) => {
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState(false);
 
@@ -29,13 +31,14 @@ const Sidebar = ({ page, list }) => {
       ? "Active Clients"
       : "";
 
-  const handleClick = (e, key) => {
+  const handleClick = (id, key) => {
     setSelectedKey(key);
+    onListSelect(id);
   };
 
   const handleCreateForm = () => {
     setOpen(true);
-  }
+  };
 
   return (
     <div className="margin">
@@ -52,7 +55,10 @@ const Sidebar = ({ page, list }) => {
             <SearchOutlined color="action" />
           </div>
         </div>
-        <div onClick={handleCreateForm} style={{ cursor: "pointer",marginBottom:'13px' }}>
+        <div
+          onClick={handleCreateForm}
+          style={{ cursor: "pointer", marginBottom: "13px" }}
+        >
           <AddCircleOutlineIcon sx={{ color: "#00bcd4" }} />
         </div>
       </div>
@@ -65,11 +71,12 @@ const Sidebar = ({ page, list }) => {
         {list.map((c, key) => {
           return (
             <div
-              onClick={(e) => handleClick(e, key)}
+              onClick={(e) => handleClick(c?.id, key)}
               className={key === selectedKey ? "itemOnClick" : "item"}
-              key={key}
+              key={c?.id || key}
             >
-              {c.case}
+              {c?.valueOne} <br />
+              {c?.valueTwo}
             </div>
           );
         })}

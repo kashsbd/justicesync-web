@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-import { API_URL, colors } from "../../utils/constants";
+import { colors } from "../../utils/constants";
 import CommonButton from "../../components/commonbutton/CommonButton";
 import InputField from "../../components/inputfield/InputField";
-
 import SnackBarContext from "../../contexts/SnackBarContext";
+
+import $axios from "../../lib/$axios";
 
 import "./Login.css";
 
@@ -24,15 +24,12 @@ const Login = () => {
       showSnackBar("Please key in your password.");
     } else {
       try {
-        axios.defaults.headers["x-access-token"] = undefined;
-        const res = await axios.post(`${API_URL}/auth/login`, {
+        const res = await $axios.post("auth/login", {
           email,
           password,
         });
         if (res.status === 200) {
           localStorage.setItem("CURRENT_USER", JSON.stringify(res.data?.data));
-          axios.defaults.headers["x-access-token"] =
-            res.data?.data?.accessToken;
           navigate("/cases");
         } else {
           showSnackBar("Something went wrong.");

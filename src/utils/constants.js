@@ -47,7 +47,7 @@ export const staffTypes = [
   { label: "Trainee", value: "trainee" },
 ];
 
-export const API_URL = "http://localhost:3030";
+export const API_URL = "http://localhost:3030/";
 
 export const CURRENT_USER = localStorage.getItem("CURRENT_USER")
   ? JSON.parse(localStorage.getItem("CURRENT_USER"))
