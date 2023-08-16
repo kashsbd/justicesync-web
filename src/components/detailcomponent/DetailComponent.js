@@ -1,52 +1,15 @@
 import React from "react";
-import { Avatar, Divider, Grid } from "@mui/material";
 
-import { colors } from "../../utils/constants";
+import Staff from "../details/staff/Staff";
+import Case from "../details/case/Case";
+import Client from "../details/client/Client";
 
-const DetailComponent = ({ staffDetails, page }) => {
+const DetailComponent = ({ staffDetails,page }) => {
   return (
-    page === "staff" && (
-      <Grid container display="flex">
-        <Grid
-          item
-          md={5}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <div style={{ fontSize: "100px" }}>
-            <Avatar
-              sx={{
-                color: colors.primaryColor,
-                backgroundColor: colors.dimGrey,
-                width: "70%",
-                height: "70%",
-              }}
-              variant="square"
-            />
-          </div>
-        </Grid>
-        <Grid item md={7}>
-          <Grid container>
-            {staffDetails.map((staff, key) => {
-              return (
-                <>
-                  <Grid style={{ color: "grey" }} md={6} item>
-                    {staff.label} :
-                  </Grid>
-                  <Grid style={{ color: colors.primaryColor }} md={6} item>
-                    {staff.value}
-                  </Grid>
-                  <Grid mt={2} mb={2} item md={12}>
-                    <Divider />
-                  </Grid>
-                </>
-              );
-            })}
-          </Grid>
-        </Grid>
-      </Grid>
-    )
+    page === "staff" ? (<Staff staffDetails={staffDetails} />)
+    : page === "case" ? (<Case />)
+    : page === "client" ? (<Client />)
+    : ''
   );
 };
 

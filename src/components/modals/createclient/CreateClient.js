@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import "./CreateClient.css";
-import { Button, ButtonGroup, Grid, colors } from "@mui/material";
+import { Button, ButtonGroup, Grid, Box, Modal } from "@mui/material";
+
 import Company from "../../company/Company";
+import { colors } from "../../../utils/constants";
+
+import "./CreateClient.css";
 
 const style = {
   position: "absolute",
@@ -18,11 +19,22 @@ const style = {
 };
 
 const CreateClient = ({ open, setOpen }) => {
-  const handleClose = () => setOpen(false);
   const [value, setValue] = useState("company");
+  const [companyVariant, setCompanyVariant] = useState("contained");
+  const [personVariant, setPersonVariant] = useState("outlined");
 
-  const handleTabChange = (event, val) => {
-    setValue(event.target.value);
+  const handleClose = () => setOpen(false);
+
+  const handleTabChange = (event, value) => {
+    let val = event.target.value;
+    setValue(val);
+    if (val === "company") {
+      setCompanyVariant("contained");
+      setPersonVariant("outlined");
+    } else if (val === "person") {
+      setCompanyVariant("outlined");
+      setPersonVariant("contained");
+    }
   };
 
   return (
@@ -39,13 +51,37 @@ const CreateClient = ({ open, setOpen }) => {
             <Grid item md={12} textAlign="center">
               <ButtonGroup variant="contained">
                 <Button
-                  sx={{ color: colors.grey }}
+                  sx={
+                    companyVariant === "contained"
+                      ? { backgroundColor: colors.primaryColor }
+                      : companyVariant === "outlined"
+                      ? {
+                          borderColor: colors.primaryColor,
+                          color: colors.primaryColor,
+                        }
+                      : ""
+                  }
+                  variant={companyVariant}
                   value="company"
                   onClick={handleTabChange}
                 >
                   Company
                 </Button>
-                <Button value="person" onClick={handleTabChange}>
+                <Button
+                  sx={
+                    personVariant === "contained"
+                      ? { backgroundColor: colors.primaryColor }
+                      : personVariant === "outlined"
+                      ? {
+                          borderColor: colors.primaryColor,
+                          color: colors.primaryColor,
+                        }
+                      : ""
+                  }
+                  variant={personVariant}
+                  value="person"
+                  onClick={handleTabChange}
+                >
                   Person
                 </Button>
               </ButtonGroup>
