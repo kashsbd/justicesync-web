@@ -64,3 +64,5 @@ export const getInitials = () => {
     return "-";
   }
 };
+
+export const DATE_FORMAT = "M/D/YYYY";

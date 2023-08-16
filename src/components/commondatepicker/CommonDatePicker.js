@@ -1,21 +1,21 @@
+import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import React from "react";
 
-const CommonDatePicker = ({value,setValue,...rest}) => {
-
-  const handleDateChange = (val) => {
-    setValue(val);
-  }
-
+const CommonDatePicker = ({
+  label = "Date Created",
+  value,
+  setValue,
+  ...rest
+}) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-        label="Date Created"
+        label={label}
         variant="standard"
         value={value}
-        onChange={handleDateChange}
+        onChange={(val) => setValue(val)}
         {...rest}
       />
     </LocalizationProvider>
