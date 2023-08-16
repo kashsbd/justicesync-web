@@ -49,19 +49,17 @@ const App = () => {
   );
 
   return (
-    <div>
-      <QueryClientProvider client={queryClient}>
-        <SnackBarContext.Provider value={{ showSnackBar, closeSnackBar }}>
-          <RouterProvider router={router} />;
-          <Snackbar
-            open={snackBarVisible}
-            autoHideDuration={4000}
-            onClose={() => setSnackBarVisible(false)}
-            message={snackBarMessage}
-          />
-        </SnackBarContext.Provider>
-      </QueryClientProvider>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <SnackBarContext.Provider value={{ showSnackBar, closeSnackBar }}>
+        <RouterProvider router={router} />;
+        <Snackbar
+          open={snackBarVisible}
+          autoHideDuration={4000}
+          onClose={() => setSnackBarVisible(false)}
+          message={snackBarMessage}
+        />
+      </SnackBarContext.Provider>
+    </QueryClientProvider>
   );
 };
 

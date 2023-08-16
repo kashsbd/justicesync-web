@@ -37,7 +37,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Clients = () => {
-  const {} = useQuery;
   return (
     <Box sx={{ display: "flex" }}>
       <CommonDrawer />
