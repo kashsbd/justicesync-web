@@ -1,6 +1,5 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -9,14 +8,16 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import NavigationBar from "../navigationbar/NavigationBar";
-import { colors, drawerWidth } from "../../utils/constants";
-import DrawerItems from "../draweritems/DrawerItems";
 import { Avatar } from "@mui/material";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+
+import NavigationBar from "../navigationbar/NavigationBar";
+import { colors, drawerWidth, getInitials } from "../../utils/constants";
+import DrawerItems from "../draweritems/DrawerItems";
+
 import "./CommonDrawer.css";
 
 const itemList = [
@@ -74,7 +75,7 @@ const CommonDrawer = () => {
             JusticeSync
           </Typography>
           <Avatar style={{ textAlign: "right" }} sx={{ bgcolor: colors.grey }}>
-            <span style={{ color: colors.primaryColor }}>MS</span>
+            <span style={{ color: colors.primaryColor }}>{getInitials()}</span>
           </Avatar>
         </Toolbar>
       </NavigationBar>

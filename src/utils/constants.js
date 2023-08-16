@@ -49,6 +49,18 @@ export const staffTypes = [
 
 export const API_URL = "http://localhost:3030";
 
-export const CURRENT_USER = localStorage.getItem(CURRENT_USER)
-  ? JSON.parse(localStorage.getItem(CURRENT_USER))
+export const CURRENT_USER = localStorage.getItem("CURRENT_USER")
+  ? JSON.parse(localStorage.getItem("CURRENT_USER"))
   : null;
+
+export const getInitials = () => {
+  if (CURRENT_USER) {
+    return (
+      CURRENT_USER?.initials ||
+      CURRENT_USER?.firstName?.charAt(0).toUpperCase() +
+        CURRENT_USER?.lastName?.charAt(0).toUpperCase()
+    );
+  } else {
+    return "-";
+  }
+};
