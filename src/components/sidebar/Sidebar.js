@@ -76,7 +76,7 @@ const Sidebar = ({ page, list, onListSelect = () => {} }) => {
               key={c?.id || key}
             >
               {c?.valueOne} <br />
-              {c?.valueTwo}
+              <span style={{ color: "gray" }}>{c?.valueTwo}</span>
             </div>
           );
         })}
