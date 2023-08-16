@@ -23,7 +23,7 @@ const Company = ({ value, setOpen }) => {
 
   return (
     <div style={{ height: "100%", overflow: "scroll" }}>
-      <Grid container spacing={2} mt={3}>
+      <Grid container spacing={2} mt={2}>
         {value === "company" ? (
           <>
             <Grid item md={6}>
@@ -164,7 +164,7 @@ const Company = ({ value, setOpen }) => {
         </Grid>
       </Grid>
 
-      <div style={{ height: "100px" }}></div>
+      <div style={{ height: "30px" }}></div>
     </div>
   );
 };
