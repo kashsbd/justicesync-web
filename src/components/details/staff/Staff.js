@@ -3,10 +3,14 @@ import { Avatar, Divider, Grid } from "@mui/material";
 
 import DetailData from "../../detaildata/DetailData";
 
-import { colors } from "../../../utils/constants";
+import { colors, message } from "../../../utils/constants";
 
 const Staff = ({ staffDetails }) => {
-  return (
+  return staffDetails.length === 0 ? (
+    <Grid container>
+      <Grid item style={{ color: colors.gray }}>{message.staff}</Grid>
+    </Grid>
+  ) : (
     <Grid container display="flex">
       <Grid
         item

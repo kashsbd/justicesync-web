@@ -9,6 +9,7 @@
     margin-right: 20px;
     margin-bottom: 20px;
     position: relative;
+    width: 100%;
 }
 
 .searchMe{
@@ -17,6 +18,7 @@
     border: 1px solid;
     border-radius: 25px;
     border-color: rgba(0,0,0,0.54);
+    width: 100%;
     
 }
 .searchIcon{

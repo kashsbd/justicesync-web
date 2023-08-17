@@ -62,6 +62,49 @@ const Clients = () => {
     }
   };
 
+  let clientDetails = [];
+  if (selectedClient) {
+    let createdBy = selectedClient?.createdBy;
+    let referredBy = selectedClient?.referredBy;
+    let buildingAddress = selectedClient?.buildingAddress;
+    clientDetails = [
+      {
+        label: "Client Id",
+        value: selectedClient?.idCardNumber,
+      },
+      {
+        label: "Name",
+        value: `${selectedClient?.salutation} ${selectedClient?.firstName} ${selectedClient?.lastName}`,
+      },
+      {
+        label: "Company Name",
+        value: selectedClient?.companyName,
+      },
+      { label: "Phone", value: selectedClient?.phno },
+      {
+        label: "Business Registration Number",
+        value: selectedClient?.businessRegistrationNumber,
+      },
+      { label: "Email", value: selectedClient?.email },
+      { label: "Fax", value: selectedClient?.fax },
+      {
+        label: "Created By",
+        value: `${createdBy?.salutation} ${createdBy?.firstName} ${createdBy?.lastName}`,
+      },
+      {
+        label: "Referred By",
+        value: `${referredBy?.salutation} ${referredBy?.firstName} ${referredBy?.lastName}`,
+      },
+      { label: "Date Created", value: selectedClient?.createDate },
+      { label: "Address 1", value: buildingAddress?.addressOne },
+      { label: "Address 2", value: buildingAddress?.addressTwo },
+      { label: "City", value: buildingAddress?.city },
+      { label: "State", value: buildingAddress?.state },
+      { label: "Country", value: buildingAddress?.country },
+      { label: "Postal Code", value: buildingAddress?.postalCode },
+    ];
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       <CommonDrawer />
@@ -75,7 +118,7 @@ const Clients = () => {
             />
           </div>
           <div className="detail">
-            <DetailComponent page="client" />
+            <DetailComponent page="client" clientDetails={clientDetails} />
           </div>
         </div>
       </Main>

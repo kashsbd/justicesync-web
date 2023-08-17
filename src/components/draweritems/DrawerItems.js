@@ -7,7 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 
 
@@ -15,7 +15,6 @@ const DrawerItems = ({itemList}) => {
     const navigate = useNavigate();
     const [selectedValue,setSelectedValue] = useState('Cases');
     const handleClick = (item) => {
-        console.log('hello',item);
         setSelectedValue(item);
         navigate(`/${item}`);
     }

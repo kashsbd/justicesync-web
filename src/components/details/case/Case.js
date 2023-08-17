@@ -4,28 +4,48 @@ import { Divider, Grid, InputLabel } from "@mui/material";
 import Title from "../../title/Title";
 import DetailData from "../../detaildata/DetailData";
 
-import { colors } from "../../../utils/constants";
+import { colors, message } from "../../../utils/constants";
 import "./Case.css";
 
-const Case = () => {
-  return (
+const Case = ({ caseDetails }) => {
+  const originatingLawyer = caseDetails?.originatingLawyer;
+  const responsibleLawyer = caseDetails?.responsibleLawyer;
+  const client = caseDetails?.client;
+
+  const orgLawyer = `${originatingLawyer?.salutation} ${originatingLawyer?.firstName} ${originatingLawyer?.lastName}`;
+  const resLawyer = `${responsibleLawyer?.salutation} ${responsibleLawyer?.firstName} ${responsibleLawyer?.lastName}`;
+  const clientName = `${client?.salutation} ${client?.firstName} ${client?.lastName}`;
+
+  return caseDetails === null ? (
+    <Grid container>
+      <Grid item style={{ color: colors.gray }}>
+        {message.case}
+      </Grid>
+    </Grid>
+  ) : (
     <Grid container spacing={3}>
       <Grid item md={12}>
         <Title color={colors.primaryColor} component="p" title="CASE DETAILS" />
       </Grid>
       <Grid item md={5.5}>
-        <DetailData label="Case Ref" value="20230001" />
+        <DetailData label="Case Name" value={caseDetails?.caseName} />
         <Divider />
       </Grid>
       <Grid item md={5.5}>
-        <DetailData label="Created By" value="First Staff Sbd" />
+        <DetailData label="Created By" value={orgLawyer} />
         <Divider />
       </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="Agreed Fee" value="$1,000.00" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
+      {caseDetails?.isCaseOpen && (
+        <Grid item md={5.5}>
+          <DetailData
+            label="Case Open Date"
+            value={caseDetails?.caseOpenDate}
+          />
+          <Divider />
+        </Grid>
+      )}
+
+      {/* <Grid item md={5.5}>
         <div className="perRate">
           <div className="permission">
             <span>Permissions:</span> <span className="color"> ALL</span>
@@ -36,57 +56,29 @@ const Case = () => {
           </div>
           <div>Matter is billable</div>
         </div>
-      </Grid>
+      </Grid> */}
       <Grid item md={11}>
         <div className="notes">
           <InputLabel>Case Description</InputLabel>
-          <p className="des">this is my first case also</p>
+          <p className="des">{caseDetails?.caseDescription}</p>
         </div>
       </Grid>
       <Grid item md={12}>
         <Title color={colors.primaryColor} component="p" title="CLIENT INFO" />
       </Grid>
       <Grid item md={5.5}>
-        <DetailData label="Name" value="Ms.mona sbd" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="Email" value="mona@gmail.com" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="Mobile" value="09786665464" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="Phone" value="09877776555" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="City" value="fairfield" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="State" value="IOWA" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="Country" value="United States" />
-        <Divider />
-      </Grid>
-      <Grid item md={5.5}>
-        <DetailData label="Postal Code" value="52557" />
+        <DetailData label="Name" value={clientName} />
         <Divider />
       </Grid>
       <Grid item md={12}>
         <Title color={colors.primaryColor} component="p" title="LAWYER INFO" />
       </Grid>
       <Grid item md={5.5}>
-        <DetailData label="Responsible Lawyer" value="First Staff Sbd" />
+        <DetailData label="Responsible Lawyer" value={resLawyer} />
         <Divider />
       </Grid>
       <Grid item md={5.5}>
-        <DetailData label="Originating Lawyer" value="First Staff Sbd" />
+        <DetailData label="Originating Lawyer" value={orgLawyer} />
         <Divider />
       </Grid>
       <div style={{ height: "90px" }}></div>

@@ -5,6 +5,7 @@ export const colors = {
   black: "#000",
   grey: "#fefefe",
   dimGrey: "#fafafa",
+  gray:"gray"
 };
 
 export const drawerWidth = 250;
@@ -46,6 +47,12 @@ export const staffTypes = [
   { label: "Senior Associate", value: "senior associate" },
   { label: "Trainee", value: "trainee" },
 ];
+
+export const message = {
+  case:"Please select case to view for more details",
+  client:"Please select client to view for more details",
+  staff:"Please select staff to view for more details"
+}
 
 export const API_URL = "http://localhost:3030/";
 

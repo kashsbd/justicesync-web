@@ -4,11 +4,11 @@ import Staff from "../details/staff/Staff";
 import Case from "../details/case/Case";
 import Client from "../details/client/Client";
 
-const DetailComponent = ({ staffDetails,page }) => {
+const DetailComponent = ({ staffDetails,caseDetails,clientDetails,page }) => {
   return (
     page === "staff" ? (<Staff staffDetails={staffDetails} />)
-    : page === "case" ? (<Case />)
-    : page === "client" ? (<Client />)
+    : page === "case" ? (<Case caseDetails={caseDetails} />)
+    : page === "client" ? (<Client clientDetails={clientDetails} />)
     : ''
   );
 };
