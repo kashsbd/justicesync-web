@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Grid, Box, Modal } from "@mui/material";
 
 import CommonSelect from "../../commonselect/CommonSelect";
@@ -6,6 +6,7 @@ import CommonButton from "../../commonbutton/CommonButton";
 import InputField from "../../inputfield/InputField";
 
 import SnackBarContext from "../../../contexts/SnackBarContext";
+import useCreateStaff from "../../../hooks/useCreateStaff";
 
 import { roleTypes, salutations } from "../../../utils/constants";
 import { exclude, isEmptyString, isNumber } from "../../../utils/functions";
@@ -38,13 +39,19 @@ const CreateStaff = ({ open, setOpen }) => {
     phno: "",
   });
 
+  const { mutate, isError, isSuccess, error } = useCreateStaff();
   const { showSnackBar } = useContext(SnackBarContext);
 
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
-  const handleClose = () => setOpen(false);
+  useEffect(() => {
+    if (isSuccess) {
+      setOpen(false);
+      showSnackBar("Successfully saved the data.");
+    }
+    if (isError) {
+      setOpen(false);
+      showSnackBar(JSON.stringify(error));
+    }
+  }, [isError, isSuccess]);
 
   const onSaveBtnClicked = () => {
     if (isEmptyString(fieldData.salutation)) {
@@ -71,6 +78,7 @@ const CreateStaff = ({ open, setOpen }) => {
       const dataWithoutConfirmPassword = exclude(fieldData, [
         "confirmPassword",
       ]);
+      mutate(dataWithoutConfirmPassword);
     }
   };
 
@@ -78,7 +86,7 @@ const CreateStaff = ({ open, setOpen }) => {
     <Modal
       sx={{ width: "100%", border: "none" }}
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -114,6 +122,7 @@ const CreateStaff = ({ open, setOpen }) => {
                 variant="standard"
                 required
                 fullWidth
+                value={fieldData.firstName}
                 onChange={(e) =>
                   setFieldData({ ...fieldData, firstName: e.target.value })
                 }
@@ -126,6 +135,7 @@ const CreateStaff = ({ open, setOpen }) => {
                 variant="standard"
                 required
                 fullWidth
+                value={fieldData.lastName}
                 onChange={(e) =>
                   setFieldData({ ...fieldData, lastName: e.target.value })
                 }
@@ -137,6 +147,7 @@ const CreateStaff = ({ open, setOpen }) => {
                 label="Initials"
                 variant="standard"
                 fullWidth
+                value={fieldData.initials}
                 onChange={(e) =>
                   setFieldData({ ...fieldData, initials: e.target.value })
                 }
@@ -149,6 +160,7 @@ const CreateStaff = ({ open, setOpen }) => {
                 variant="standard"
                 required
                 fullWidth
+                value={fieldData.globalHourlyRate}
                 onChange={(e) =>
                   setFieldData({
                     ...fieldData,
@@ -164,6 +176,7 @@ const CreateStaff = ({ open, setOpen }) => {
                 variant="standard"
                 required
                 fullWidth
+                value={fieldData.email}
                 onChange={(e) =>
                   setFieldData({
                     ...fieldData,
@@ -180,6 +193,7 @@ const CreateStaff = ({ open, setOpen }) => {
                 hiddendLabel
                 required
                 fullWidth
+                value={fieldData.password}
                 onChange={(e) =>
                   setFieldData({
                     ...fieldData,
@@ -196,6 +210,7 @@ const CreateStaff = ({ open, setOpen }) => {
                 hiddendLabel
                 required
                 fullWidth
+                value={fieldData.confirmPassword}
                 onChange={(e) =>
                   setFieldData({
                     ...fieldData,
@@ -206,7 +221,18 @@ const CreateStaff = ({ open, setOpen }) => {
             </Grid>
 
             <Grid item md={12}>
-              <InputField label="Phone Number" variant="standard" fullWidth />
+              <InputField
+                label="Phone Number"
+                variant="standard"
+                fullWidth
+                value={fieldData.phno}
+                onChange={(e) =>
+                  setFieldData({
+                    ...fieldData,
+                    phno: e.target.value,
+                  })
+                }
+              />
             </Grid>
 
             <Grid
@@ -218,7 +244,7 @@ const CreateStaff = ({ open, setOpen }) => {
             >
               <Grid item>
                 <CommonButton
-                  onClick={handleCancel}
+                  onClick={() => setOpen(false)}
                   label="Cancel"
                   variant="outlined"
                 />

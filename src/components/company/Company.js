@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Grid } from "@mui/material";
 import dayjs from "dayjs";
 
@@ -10,6 +10,7 @@ import CommonButton from "../commonbutton/CommonButton";
 
 import SnackBarContext from "../../contexts/SnackBarContext";
 import useGetAllStaff from "../../hooks/useGetAllStaff";
+import useCreateClient from "../../hooks/useCreateClient";
 
 import { DATE_FORMAT, countries, salutations } from "../../utils/constants";
 import { isEmptyString } from "../../utils/functions";
@@ -42,8 +43,20 @@ const Company = ({ value, setOpen }) => {
     country: "",
   });
 
+  const { mutate, isError, isSuccess, error } = useCreateClient();
   const { showSnackBar } = useContext(SnackBarContext);
   const { data: staffs } = useGetAllStaff();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpen(false);
+      showSnackBar("Successfully saved the data.");
+    }
+    if (isError) {
+      setOpen(false);
+      showSnackBar(JSON.stringify(error));
+    }
+  }, [isError, isSuccess]);
 
   const staffList =
     staffs?.map((stf) => ({
@@ -72,10 +85,14 @@ const Company = ({ value, setOpen }) => {
       showSnackBar("Please select referred by.");
     } else if (isEmptyString(address.addressOne)) {
       showSnackBar("Please key in address one.");
+    } else if (isEmptyString(address.addressTwo)) {
+      showSnackBar("Please key in address two.");
     } else if (isEmptyString(address.city)) {
       showSnackBar("Please key in city.");
     } else if (isEmptyString(address.state)) {
       showSnackBar("Please key in state.");
+    } else if (isEmptyString(address.postalCode)) {
+      showSnackBar("Please key in postal code.");
     } else if (isEmptyString(address.country)) {
       showSnackBar("Please select country.");
     } else {
@@ -94,7 +111,7 @@ const Company = ({ value, setOpen }) => {
           businessRegistrationNumber: null,
         };
       }
-      console.log(dataToSend);
+      mutate(dataToSend);
     }
   };
 
@@ -302,6 +319,7 @@ const Company = ({ value, setOpen }) => {
           <InputField
             label="Address 2"
             variant="standard"
+            required
             fullWidth
             value={address.addressTwo}
             onChange={(e) =>
@@ -346,6 +364,7 @@ const Company = ({ value, setOpen }) => {
           <InputField
             label="Postal Code"
             variant="standard"
+            required
             fullWidth
             value={address.postalCode}
             onChange={(e) =>
