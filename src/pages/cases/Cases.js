@@ -57,7 +57,7 @@ const Cases = () => {
             <Sidebar page="case" list={caseList} onListSelect={onListSelect} />
           </div>
           <div className="detail">
-            <DetailComponent page="case" />
+            <DetailComponent page="case" caseDetails={selectedCase} />
           </div>
         </div>
       </Main>

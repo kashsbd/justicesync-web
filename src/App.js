@@ -10,7 +10,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Login from "./pages/login/Login";
 import Cases from "./pages/cases/Cases";
-import TimeEntries from "./pages/timeentries/TimeEntries";
 import Clients from "./pages/clients/Clients";
 import Staff from "./pages/staff/Staff";
 
@@ -42,7 +41,6 @@ const App = () => {
         <Route index element={<Login />} />
         <Route path="/staff" element={<Staff />} />
         <Route path="/cases" element={<Cases />} />
-        <Route path="/timeentries" element={<TimeEntries />} />
         <Route path="/clients" element={<Clients />} />
       </Route>
     )

@@ -5,6 +5,7 @@ export const colors = {
   black: "#000",
   grey: "#fefefe",
   dimGrey: "#fafafa",
+  gray:"gray"
 };
 
 export const drawerWidth = 250;
@@ -47,6 +48,11 @@ export const staffTypes = [
   { label: "Trainee", value: "trainee" },
 ];
 
+export const message = {
+  case:"Please select case to view for more details",
+  client:"Please select client to view for more details",
+  staff:"Please select staff to view for more details"
+}
 export const caseStatusTypes = [
   { label: "Open", value: "Open" },
   { label: "Closed", value: "Closed" },

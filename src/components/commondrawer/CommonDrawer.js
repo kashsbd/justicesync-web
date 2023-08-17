@@ -24,7 +24,7 @@ const itemList = [
   { icon: <PeopleAltIcon />, label: "Staff", link: "staff" },
   { icon: <AccountBoxIcon />, label: "Clients", link: "clients" },
   { icon: <BusinessCenterIcon />, label: "Cases", link: "cases" },
-  { icon: <AccessAlarmsIcon />, label: "Time Entries", link: "timeentries" },
+ 
 ];
 
 const DrawerHeader = styled("div")(({ theme }) => ({
