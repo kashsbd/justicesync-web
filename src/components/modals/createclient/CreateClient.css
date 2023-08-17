@@ -21,3 +21,11 @@
     border-bottom-right-radius: 5px;
     width: 100px;
 }
+
+.myBtnContained:hover{
+    background-color: #00bcd4 !important;
+}
+
+.myBtnOutlined:hover{
+    border: 1px solid #00bcd4 !important;
+}

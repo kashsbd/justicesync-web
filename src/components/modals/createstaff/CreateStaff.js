@@ -188,6 +188,7 @@ const CreateStaff = ({ open, setOpen }) => {
 
             <Grid item md={12}>
               <InputField
+                type="password"
                 label="Password"
                 variant="standard"
                 hiddendLabel
@@ -205,6 +206,7 @@ const CreateStaff = ({ open, setOpen }) => {
 
             <Grid item md={12}>
               <InputField
+                type="password"
                 label="Re-enter Password"
                 variant="standard"
                 hiddendLabel

@@ -51,6 +51,11 @@ const CreateClient = ({ open, setOpen }) => {
             <Grid item md={12} textAlign="center">
               <ButtonGroup variant="contained">
                 <Button
+                  className={
+                    companyVariant === "contained"
+                      ? "myBtnContained"
+                      : "myBtnOutlined"
+                  }
                   sx={
                     companyVariant === "contained"
                       ? { backgroundColor: colors.primaryColor }
@@ -68,6 +73,11 @@ const CreateClient = ({ open, setOpen }) => {
                   Company
                 </Button>
                 <Button
+                  className={
+                    companyVariant === "contained"
+                      ? "myBtnContained"
+                      : "myBtnOutlined"
+                  }
                   sx={
                     personVariant === "contained"
                       ? { backgroundColor: colors.primaryColor }

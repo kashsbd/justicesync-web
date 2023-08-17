@@ -18,6 +18,7 @@ const Login = () => {
   const { showSnackBar } = useContext(SnackBarContext);
 
   const handleLogin = async () => {
+    localStorage.removeItem("CURRENT_USER");
     if (email.trim().length === 0) {
       showSnackBar("Please key in your email.");
     } else if (password.trim().length === 0) {
@@ -59,6 +60,7 @@ const Login = () => {
             </div>
             <div className="fullWidth" style={{ marginTop: 10 }}>
               <InputField
+                type="password"
                 required
                 hiddenLabel
                 className="textField fullWidth marginTop"
