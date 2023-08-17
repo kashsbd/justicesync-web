@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import { Grid } from "@mui/material";
+import React, { useState, useContext, useEffect } from "react";
+import { Grid, Box, Modal } from "@mui/material";
 import dayjs from "dayjs";
 
 import CommonSelect from "../../commonselect/CommonSelect";
@@ -9,6 +7,14 @@ import CommonButton from "../../commonbutton/CommonButton";
 import CommonTextArea from "../../commontextarea/CommonTextArea";
 import CommonDatePicker from "../../commondatepicker/CommonDatePicker";
 import InputField from "../../inputfield/InputField";
+
+import useGetAllStaff from "../../../hooks/useGetAllStaff";
+import useGetAllClient from "../../../hooks/useGetAllClient";
+import useCreateCase from "../../../hooks/useCreateCase";
+import SnackBarContext from "../../../contexts/SnackBarContext";
+
+import { DATE_FORMAT, caseStatusTypes } from "../../../utils/constants";
+import { isEmptyString } from "../../../utils/functions";
 
 import "./CreateCase.css";
 
@@ -25,17 +31,74 @@ const style = {
 };
 
 const CreateCase = ({ open, setOpen }) => {
-  const [referredBy, setReferredBy] = useState("");
-  const [createdDate, setCreatedDate] = useState(dayjs(Date.now()));
+  const [caseData, setCaseData] = useState({
+    courtCaseNumber: null,
+    caseName: "",
+    isCaseBillable: true,
+    caseDescription: "",
+    clientId: null,
+    responsibleLawyerId: null,
+    originatingLawyerId: null,
+    secretaryInChargeId: null,
+    isCaseOpen: true,
+    caseOpenDate: dayjs(Date.now()),
+  });
 
-  const handleClose = () => {
-    setOpen(false);
+  const { mutate, isSuccess, isError, error } = useCreateCase();
+  const { showSnackBar } = useContext(SnackBarContext);
+  const { data: staffs } = useGetAllStaff();
+  const { data: clients } = useGetAllClient();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpen(false);
+      showSnackBar("Successfully saved the data.");
+    }
+    if (isError) {
+      setOpen(false);
+      showSnackBar(JSON.stringify(error));
+    }
+  }, [isError, isSuccess]);
+
+  const staffList =
+    staffs?.map((stf) => ({
+      value: stf?.id,
+      label: `${stf?.salutation} ${stf?.firstName} ${stf?.lastName}`,
+    })) || [];
+
+  const clientList =
+    clients?.map((cli) => ({
+      value: cli?.id,
+      label:
+        cli?.type === "person"
+          ? `${cli?.salutation} ${cli?.firstName} ${cli?.lastName}`
+          : cli?.companyName,
+    })) || [];
+
+  const onSaveBtnClicked = () => {
+    if (isEmptyString(caseData.caseName)) {
+      showSnackBar("Please key in case name.");
+    } else if (!caseData.clientId) {
+      showSnackBar("Please select client.");
+    } else if (!caseData.responsibleLawyerId) {
+      showSnackBar("Please select responsible lawyer.");
+    } else if (!caseData.originatingLawyerId) {
+      showSnackBar("Please select originating lawyer.");
+    } else if (!caseData.secretaryInChargeId) {
+      showSnackBar("Please select secretary.");
+    } else {
+      const dataToSend = {
+        ...caseData,
+        caseOpenDate: caseData.caseOpenDate.format(DATE_FORMAT),
+      };
+      mutate(dataToSend);
+    }
   };
 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -43,7 +106,15 @@ const CreateCase = ({ open, setOpen }) => {
         <div style={{ height: "100%", overflow: "scroll" }}>
           <Grid container spacing={2}>
             <Grid item md={6}>
-              <InputField label="Court Case No." variant="standard" fullWidth />
+              <InputField
+                label="Court Case No."
+                variant="standard"
+                fullWidth
+                value={caseData.courtCaseNumber}
+                onChange={(e) =>
+                  setCaseData({ ...caseData, courtCaseNumber: e.target.value })
+                }
+              />
             </Grid>
 
             <Grid item md={12}>
@@ -52,22 +123,34 @@ const CreateCase = ({ open, setOpen }) => {
                 variant="standard"
                 required
                 fullWidth
+                value={caseData.caseName}
+                onChange={(e) =>
+                  setCaseData({ ...caseData, caseName: e.target.value })
+                }
               />
             </Grid>
 
             <Grid item md={12} mt={2}>
-              <CommonTextArea width="100%" rows={4} label="Case Description:" />
+              <CommonTextArea
+                width="100%"
+                rows={4}
+                label="Case Description:"
+                value={caseData.caseDescription}
+                onChange={(e) =>
+                  setCaseData({ ...caseData, caseDescription: e.target.value })
+                }
+              />
             </Grid>
 
             <Grid item md={12}>
               <CommonSelect
                 label="Select Client"
                 variant="standard"
-                value={referredBy}
-                setValue={setReferredBy}
-                menuItems={[]}
+                menuItems={clientList}
                 required
                 fullWidth
+                value={caseData.clientId}
+                setValue={(val) => setCaseData({ ...caseData, clientId: val })}
               />
             </Grid>
 
@@ -75,11 +158,13 @@ const CreateCase = ({ open, setOpen }) => {
               <CommonSelect
                 label="Responsible Lawyer"
                 variant="standard"
-                value={referredBy}
-                setValue={setReferredBy}
-                menuItems={[]}
+                menuItems={staffList}
                 required
                 fullWidth
+                value={caseData.responsibleLawyerId}
+                setValue={(val) =>
+                  setCaseData({ ...caseData, responsibleLawyerId: val })
+                }
               />
             </Grid>
 
@@ -87,11 +172,13 @@ const CreateCase = ({ open, setOpen }) => {
               <CommonSelect
                 label="Originating Lawyer"
                 variant="standard"
-                value={referredBy}
-                setValue={setReferredBy}
-                menuItems={[]}
+                menuItems={staffList}
                 required
                 fullWidth
+                value={caseData.originatingLawyerId}
+                setValue={(val) =>
+                  setCaseData({ ...caseData, originatingLawyerId: val })
+                }
               />
             </Grid>
 
@@ -99,19 +186,23 @@ const CreateCase = ({ open, setOpen }) => {
               <CommonSelect
                 label="Select Secretary"
                 variant="standard"
-                value={referredBy}
-                setValue={setReferredBy}
-                menuItems={[]}
+                menuItems={staffList}
                 required
                 fullWidth
+                value={caseData.secretaryInChargeId}
+                setValue={(val) =>
+                  setCaseData({ ...caseData, secretaryInChargeId: val })
+                }
               />
             </Grid>
 
             <Grid item md={12} mt={2}>
               <CommonDatePicker
-                value={createdDate}
-                setValue={setCreatedDate}
                 fullWidth
+                value={caseData.caseOpenDate}
+                setValue={(val) =>
+                  setCaseData({ ...caseData, caseOpenDate: val })
+                }
               />
             </Grid>
 
@@ -119,11 +210,13 @@ const CreateCase = ({ open, setOpen }) => {
               <CommonSelect
                 label="Status"
                 variant="standard"
-                value={referredBy}
-                setValue={setReferredBy}
-                menuItems={[]}
+                menuItems={caseStatusTypes}
                 required
                 fullWidth
+                value={caseData.isCaseOpen ? "Open" : "Closed"}
+                setValue={(val) =>
+                  setCaseData({ ...caseData, isCaseOpen: val === "Open" })
+                }
               />
             </Grid>
 
@@ -142,7 +235,11 @@ const CreateCase = ({ open, setOpen }) => {
                 />
               </Grid>
               <Grid item>
-                <CommonButton label="Save" variant="contained" />
+                <CommonButton
+                  label="Save"
+                  variant="contained"
+                  onClick={onSaveBtnClicked}
+                />
               </Grid>
             </Grid>
           </Grid>

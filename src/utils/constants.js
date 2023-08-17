@@ -53,6 +53,10 @@ export const message = {
   client:"Please select client to view for more details",
   staff:"Please select staff to view for more details"
 }
+export const caseStatusTypes = [
+  { label: "Open", value: "Open" },
+  { label: "Closed", value: "Closed" },
+];
 
 export const API_URL = "http://localhost:3030/";
 
@@ -71,3 +75,5 @@ export const getInitials = () => {
     return "-";
   }
 };
+
+export const DATE_FORMAT = "M/D/YYYY";

@@ -1,11 +1,11 @@
-import { InputLabel } from "@mui/material";
 import React from "react";
+import { InputLabel } from "@mui/material";
 
-const CommonTextArea = ({ rows,label,width }) => {
+const CommonTextArea = ({ rows, label, width, ...rest }) => {
   return (
     <>
       <InputLabel>{label}</InputLabel>
-      <textarea style={{width:width}} rows={rows} />
+      <textarea style={{ width }} rows={rows} {...rest} />
     </>
   );
 };
