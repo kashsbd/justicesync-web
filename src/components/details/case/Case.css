@@ -1,0 +1,22 @@
+.perRate{
+    font-size: "14px";
+    color: grey;
+}
+.permission,.rateType{
+    margin-bottom: 4px;
+}
+
+.color{
+    color:#00bcd4;
+}
+.notes{
+    border: 1px solid #cecece;
+    padding: 20px;
+    width: 100%;
+    color: grey;
+    border-radius: 2px;
+}
+.des{
+    font-size: 15px;
+    padding-top: 5px;
+}

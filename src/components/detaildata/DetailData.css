@@ -1,0 +1,16 @@
+.leftRightText{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 11px;
+}
+
+.leftText{
+    color: grey;
+    padding-left: 5px;
+   
+}
+
+.rightText{
+    color: #00bcd4;
+    padding-right: 5px;
+}

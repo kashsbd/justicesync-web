@@ -1,0 +1,54 @@
+
+.margin{
+    /* margin-top: 5rem; */
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.searchWrapper{
+    margin-right: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.searchMe{
+    padding: 11px;
+    font-size: 16px;
+    border: 1px solid;
+    border-radius: 25px;
+    border-color: rgba(0,0,0,0.54);
+    width: 100%;
+    
+}
+.searchIcon{
+    position: absolute;
+    top: 23%;
+    right: 15px;
+    
+}
+.searchMe:focus{
+    outline: none !important;
+    border: 1px solid #00bcd4;
+    
+}
+
+.item{
+    padding: 20px;
+    color: #00bcd4;
+    cursor: pointer;
+    
+}
+
+.itemOnClick{
+    background-color: rgba(128,128,128,0.19);
+    border-radius: 5px;
+    padding: 20px;
+    color: #00bcd4;
+    cursor: pointer;
+}
+
+.item:hover{
+    background-color: rgba(128,128,128,0.19);
+    border-radius: 5px;
+}

@@ -1,0 +1,31 @@
+.comPerson{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.company,.person{
+    background-color: #cecece;
+    padding: 5px;
+    width: 200px;
+   
+   
+}
+.tabOne{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    width: 100px;
+}
+.tabTwo{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 100px;
+}
+
+.myBtnContained:hover{
+    background-color: #00bcd4 !important;
+}
+
+.myBtnOutlined:hover{
+    border: 1px solid #00bcd4 !important;
+}
