@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import CommonDrawer from "../../components/commondrawer/CommonDrawer";
 import Sidebar from "../../components/sidebar/Sidebar";
 import DetailComponent from "../../components/detailcomponent/DetailComponent";
+import Loading from "../../components/Loading";
 
 import { drawerWidth } from "../../utils/constants";
 import useGetAllCase from "../../hooks/useGetAllCase";
@@ -29,17 +30,19 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Cases = () => {
-  const { data } = useGetAllCase();
+  const { data, isLoading } = useGetAllCase();
   const [selectedCase, setSelectedCase] = useState(null);
 
-  const caseList =
-    data?.map((d) => {
+  let caseList = [];
+  if (!isLoading && Array.isArray(data)) {
+    caseList = data.map((d) => {
       return {
         id: d?.id,
         valueOne: d?.caseName,
         valueTwo: d?.isCaseOpen ? " Case is Open" : " Case is Closed",
       };
-    }) || [];
+    });
+  }
 
   const onListSelect = (selectedId) => {
     const filteredData = data?.filter((d) => d?.id === selectedId);
@@ -53,12 +56,22 @@ const Cases = () => {
       <CommonDrawer />
       <Main sx={{ padding: 0 }}>
         <div className="mainContainer">
-          <div className="sidebar">
-            <Sidebar page="case" list={caseList} onListSelect={onListSelect} />
-          </div>
-          <div className="detail">
-            <DetailComponent page="case" caseDetails={selectedCase} />
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <div className="sidebar">
+                <Sidebar
+                  page="case"
+                  list={caseList}
+                  onListSelect={onListSelect}
+                />
+              </div>
+              <div className="detail">
+                <DetailComponent page="case" caseDetails={selectedCase} />
+              </div>
+            </>
+          )}
         </div>
       </Main>
     </Box>
