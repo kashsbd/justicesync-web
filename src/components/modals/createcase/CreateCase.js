@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Grid, Box, Modal } from "@mui/material";
 import dayjs from "dayjs";
 
@@ -44,21 +44,10 @@ const CreateCase = ({ open, setOpen }) => {
     caseOpenDate: dayjs(Date.now()),
   });
 
-  const { mutate, isSuccess, isError, error } = useCreateCase();
+  const { mutate } = useCreateCase();
   const { showSnackBar } = useContext(SnackBarContext);
   const { data: staffs } = useGetAllStaff();
   const { data: clients } = useGetAllClient();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setOpen(false);
-      showSnackBar("Successfully saved the data.");
-    }
-    if (isError) {
-      setOpen(false);
-      showSnackBar(JSON.stringify(error));
-    }
-  }, [isError, isSuccess]);
 
   const staffList =
     staffs?.map((stf) => ({
@@ -91,7 +80,16 @@ const CreateCase = ({ open, setOpen }) => {
         ...caseData,
         caseOpenDate: caseData.caseOpenDate.format(DATE_FORMAT),
       };
-      mutate(dataToSend);
+      mutate(dataToSend, {
+        onSuccess: () => {
+          showSnackBar("Successfully saved the data.");
+        },
+        onError: (error) => {
+          console.log(error);
+          showSnackBar(JSON.stringify(error));
+        },
+        onSettled: () => setOpen(false),
+      });
     }
   };
 
