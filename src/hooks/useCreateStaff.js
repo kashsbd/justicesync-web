@@ -6,7 +6,7 @@ const createStaff = async (data) => {
   try {
     await $axios.post("users", { ...data });
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 

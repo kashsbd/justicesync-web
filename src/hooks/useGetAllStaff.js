@@ -7,7 +7,7 @@ const getAllStaffData = async () => {
     const res = await $axios.get("users");
     return res.data?.data;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 

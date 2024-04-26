@@ -7,7 +7,7 @@ const getAllClientData = async () => {
     const res = await $axios.get("clients");
     return res.data?.data;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 

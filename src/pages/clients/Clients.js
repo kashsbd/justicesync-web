@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import CommonDrawer from "../../components/commondrawer/CommonDrawer";
 import Sidebar from "../../components/sidebar/Sidebar";
 import DetailComponent from "../../components/detailcomponent/DetailComponent";
+import Loading from "../../components/Loading";
 
 import { drawerWidth } from "../../utils/constants";
 import useGetAllClient from "../../hooks/useGetAllClient";
@@ -29,11 +30,12 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Clients = () => {
-  const { data } = useGetAllClient();
+  const { data, isLoading } = useGetAllClient();
   const [selectedClient, setSelectedClient] = useState(null);
 
-  const clientList =
-    data?.map((d) => {
+  let clientList = [];
+  if (!isLoading && Array.isArray(data)) {
+    clientList = data.map((d) => {
       const baseData = {
         id: d?.id,
         valueTwo:
@@ -53,7 +55,8 @@ const Clients = () => {
         ...baseData,
         valueOne: d?.salutation + " " + d?.firstName + " " + d?.lastName,
       };
-    }) || [];
+    });
+  }
 
   const onListSelect = (selectedId) => {
     const filteredData = data?.filter((d) => d?.id === selectedId);
@@ -110,16 +113,22 @@ const Clients = () => {
       <CommonDrawer />
       <Main sx={{ padding: 0 }}>
         <div className="mainContainer">
-          <div className="sidebar">
-            <Sidebar
-              page="client"
-              list={clientList}
-              onListSelect={onListSelect}
-            />
-          </div>
-          <div className="detail">
-            <DetailComponent page="client" clientDetails={clientDetails} />
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <div className="sidebar">
+                <Sidebar
+                  page="client"
+                  list={clientList}
+                  onListSelect={onListSelect}
+                />
+              </div>
+              <div className="detail">
+                <DetailComponent page="client" clientDetails={clientDetails} />
+              </div>
+            </>
+          )}
         </div>
       </Main>
     </Box>

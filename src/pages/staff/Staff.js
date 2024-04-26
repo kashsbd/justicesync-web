@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import CommonDrawer from "../../components/commondrawer/CommonDrawer";
 import Sidebar from "../../components/sidebar/Sidebar";
 import DetailComponent from "../../components/detailcomponent/DetailComponent";
+import Loading from "../../components/Loading";
 
 import { drawerWidth } from "../../utils/constants";
 import useGetAllStaff from "../../hooks/useGetAllStaff";
@@ -31,17 +32,19 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Staff = () => {
-  const { data: staffs } = useGetAllStaff();
+  const { data: staffs, isLoading } = useGetAllStaff();
   const [selectedStaff, setSelectedStaff] = useState(null);
 
-  const staffList =
-    staffs?.map((d) => {
+  let staffList = [];
+  if (!isLoading && Array.isArray(staffs)) {
+    staffList = staffs.map((d) => {
       return {
         id: d?.id,
         valueOne: d?.firstName + " " + d?.lastName,
         valueTwo: d?.roleType,
       };
-    }) || [];
+    });
+  }
 
   const onListSelect = (selectedId) => {
     const filteredData = staffs?.filter((d) => d?.id === selectedId);
@@ -77,16 +80,22 @@ const Staff = () => {
       <CommonDrawer />
       <Main sx={{ padding: 0 }}>
         <div className="mainContainer">
-          <div className="sidebar">
-            <Sidebar
-              page="staff"
-              list={staffList}
-              onListSelect={onListSelect}
-            />
-          </div>
-          <div className="detail">
-            <DetailComponent page="staff" staffDetails={staffDetails} />
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <div className="sidebar">
+                <Sidebar
+                  page="staff"
+                  list={staffList}
+                  onListSelect={onListSelect}
+                />
+              </div>
+              <div className="detail">
+                <DetailComponent page="staff" staffDetails={staffDetails} />
+              </div>
+            </>
+          )}
         </div>
       </Main>
     </Box>
