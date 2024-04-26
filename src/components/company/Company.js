@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Grid } from "@mui/material";
 import dayjs from "dayjs";
 
@@ -43,20 +43,9 @@ const Company = ({ value, setOpen }) => {
     country: "",
   });
 
-  const { mutate, isError, isSuccess, error } = useCreateClient();
+  const { mutate } = useCreateClient();
   const { showSnackBar } = useContext(SnackBarContext);
   const { data: staffs } = useGetAllStaff();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setOpen(false);
-      showSnackBar("Successfully saved the data.");
-    }
-    if (isError) {
-      setOpen(false);
-      showSnackBar(JSON.stringify(error));
-    }
-  }, [isError, isSuccess]);
 
   const staffList =
     staffs?.map((stf) => ({
@@ -111,7 +100,14 @@ const Company = ({ value, setOpen }) => {
           businessRegistrationNumber: null,
         };
       }
-      mutate(dataToSend);
+      mutate(dataToSend, {
+        onSuccess: () => showSnackBar("Successfully saved the data."),
+        onError: (error) => {
+          console.log(error);
+          showSnackBar(JSON.stringify(error));
+        },
+        onSettled: () => setOpen(false),
+      });
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, Box, Modal } from "@mui/material";
 
 import CommonSelect from "../../commonselect/CommonSelect";
@@ -39,19 +39,8 @@ const CreateStaff = ({ open, setOpen }) => {
     phno: "",
   });
 
-  const { mutate, isError, isSuccess, error } = useCreateStaff();
+  const { mutate } = useCreateStaff();
   const { showSnackBar } = useContext(SnackBarContext);
-
-  useEffect(() => {
-    if (isSuccess) {
-      setOpen(false);
-      showSnackBar("Successfully saved the data.");
-    }
-    if (isError) {
-      setOpen(false);
-      showSnackBar(JSON.stringify(error));
-    }
-  }, [isError, isSuccess]);
 
   const onSaveBtnClicked = () => {
     if (isEmptyString(fieldData.salutation)) {
@@ -78,7 +67,14 @@ const CreateStaff = ({ open, setOpen }) => {
       const dataWithoutConfirmPassword = exclude(fieldData, [
         "confirmPassword",
       ]);
-      mutate(dataWithoutConfirmPassword);
+      mutate(dataWithoutConfirmPassword, {
+        onSuccess: () => showSnackBar("Successfully saved the data."),
+        onError: (error) => {
+          console.log(error);
+          showSnackBar(JSON.stringify(error));
+        },
+        onSettled: () => setOpen(false),
+      });
     }
   };
 
